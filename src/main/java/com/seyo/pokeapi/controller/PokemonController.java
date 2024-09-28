@@ -23,7 +23,7 @@ public class PokemonController {
         // Convertir a minúsculas
         nombrePokemon = nombrePokemon.trim().toLowerCase();
 
-        // Obtener datos del Pokémon desde la PokeAPI
+        // URL de la PokeAPI
         String url = "https://pokeapi.co/api/v2/pokemon/" + nombrePokemon;
         RestTemplate restTemplate = new RestTemplate();
 
@@ -31,22 +31,35 @@ public class PokemonController {
             // Mapear la respuesta a un Map
             Map<String, Object> pokemonData = restTemplate.getForObject(url, Map.class);
 
-            // Obtener la primera habilidad y la imagen del Pokémon
+            // Verificar que los datos del Pokémon no son nulos
             if (pokemonData != null) {
-                var abilities = (List<Map<String, Object>>) pokemonData.get("abilities");
-                String habilidadPrincipal = ((Map<String, Object>) abilities.get(0).get("ability")).get("name").toString();
-                String imagenPokemon = ((Map<String, Object>) ((Map<String, Object>) pokemonData.get("sprites")).get("front_default")).toString();
+                // Obtener la lista de habilidades
+                List<Map<String, Object>> abilities = (List<Map<String, Object>>) pokemonData.get("abilities");
 
-                // Pasar datos a la vista
-                model.addAttribute("nombrePokemon", nombrePokemon);
-                model.addAttribute("habilidadPrincipal", habilidadPrincipal);
-                model.addAttribute("imagenPokemon", imagenPokemon);
+                // Obtener la primera habilidad si existe
+                if (!abilities.isEmpty()) {
+                    String habilidadPrincipal = ((Map<String, Object>) abilities.get(0).get("ability")).get("name").toString();
+
+                    // Obtener la imagen del Pokémon
+                    Map<String, Object> sprites = (Map<String, Object>) pokemonData.get("sprites");
+                    String imagenPokemon = sprites.get("front_default").toString();
+
+                    // Pasar datos al modelo para ser usados en la vista
+                    model.addAttribute("nombrePokemon", nombrePokemon);
+                    model.addAttribute("habilidadPrincipal", habilidadPrincipal);
+                    model.addAttribute("imagenPokemon", imagenPokemon);
+                    return "index"; // Renderizar la página principal con los datos del Pokémon
+                }
             }
+
+            // Si no se encuentran los datos, enviar mensaje de error
+            model.addAttribute("message", "No se encontró el Pokémon '" + nombrePokemon + "'. Por favor, intenta con otro.");
         } catch (Exception e) {
+            // Manejar posibles excepciones (por ejemplo, si el Pokémon no existe)
             model.addAttribute("message", "No se encontró el Pokémon '" + nombrePokemon + "'. Por favor, intenta con otro.");
         }
 
-        return "index";
+        return "index"; // Renderizar la página principal, incluso si hay error
     }
 
     @PostMapping("/adivinar")
@@ -66,6 +79,6 @@ public class PokemonController {
         model.addAttribute("nombrePokemon", nombrePokemon);
         model.addAttribute("habilidadPrincipal", habilidadPrincipal);
 
-        return "index";
+        return "index"; // Renderizar la página principal con el resultado
     }
 }
