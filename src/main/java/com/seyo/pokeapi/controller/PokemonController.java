@@ -66,21 +66,33 @@ public class PokemonController {
     public String adivinarHabilidad(@RequestParam("nombrePokemon") String nombrePokemon,
                                     @RequestParam("habilidad") String habilidadUsuario,
                                     @RequestParam("habilidadPrincipal") String habilidadPrincipal,
+                                    @RequestParam("imagenPokemon") String imagenPokemon, // Agregar esta línea
                                     Model model) {
 
-        // Comprobamos si la respuesta es correcta o erronea
+        // Comprobamos si la respuesta es correcta
         if (habilidadUsuario.equalsIgnoreCase(habilidadPrincipal)) {
             model.addAttribute("message", "¡Correcto! La habilidad principal de " + nombrePokemon + " es " + habilidadPrincipal + ".");
-            model.addAttribute("messageType", "success"); // Mensaje de éxito
         } else {
             model.addAttribute("message", "Incorrecto. La habilidad principal de " + nombrePokemon + " es " + habilidadPrincipal + ".");
-            model.addAttribute("messageType", "error"); // Mensaje de error
         }
 
         // Pasar datos de vuelta a la vista
         model.addAttribute("nombrePokemon", nombrePokemon);
         model.addAttribute("habilidadPrincipal", habilidadPrincipal);
+        model.addAttribute("imagenPokemon", imagenPokemon); // Mantener la imagen
 
         return "index"; // Renderizar la página principal con el resultado
     }
+
+    @GetMapping("/reiniciar")
+    public String reiniciar(Model model) {
+        // Limpiar el modelo para reiniciar el juego
+        model.addAttribute("nombrePokemon", null);
+        model.addAttribute("habilidadPrincipal", null);
+        model.addAttribute("imagenPokemon", null);
+        model.addAttribute("message", null); // Limpiar el mensaje
+
+        return "index"; // Volver a la página principal
+    }
+
 }
