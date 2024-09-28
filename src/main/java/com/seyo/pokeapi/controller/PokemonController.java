@@ -68,11 +68,13 @@ public class PokemonController {
                                     @RequestParam("habilidadPrincipal") String habilidadPrincipal,
                                     Model model) {
 
-        // Comprobamos si la respuesta es correcta
+        // Comprobamos si la respuesta es correcta o erronea
         if (habilidadUsuario.equalsIgnoreCase(habilidadPrincipal)) {
             model.addAttribute("message", "¡Correcto! La habilidad principal de " + nombrePokemon + " es " + habilidadPrincipal + ".");
+            model.addAttribute("messageType", "success"); // Mensaje de éxito
         } else {
             model.addAttribute("message", "Incorrecto. La habilidad principal de " + nombrePokemon + " es " + habilidadPrincipal + ".");
+            model.addAttribute("messageType", "error"); // Mensaje de error
         }
 
         // Pasar datos de vuelta a la vista
