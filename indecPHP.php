@@ -6,7 +6,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'reiniciar') {
     // Reiniciar la sesión
     session_unset();
     session_destroy();
-    header("Location: index.php");
+    header("Location: indecPHP.php");
     exit();
 }
 
@@ -128,7 +128,8 @@ $message = $_SESSION['message'] ?? null;
         </div>
 
         <!-- Botón para reiniciar -->
-        <form action="index.php?action=reiniciar" method="GET" class="mt-4">
+        <form action="indecPHP.php" method="GET" class="mt-4">
+            <input type="hidden" name="action" value="reiniciar">
             <button type="submit" class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">Volver a empezar</button>
         </form>
     <?php endif; ?>
@@ -136,3 +137,4 @@ $message = $_SESSION['message'] ?? null;
 
 </body>
 </html>
+
