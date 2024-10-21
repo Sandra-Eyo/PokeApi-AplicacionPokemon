@@ -40,7 +40,9 @@ Súbela a DockerHub.
 
 4. **Acceso a la aplicación:** Abre tu navegador y ve a http://localhost:8080 para comenzar usarlo
    
-<center>![imagen](https://github.com/user-attachments/assets/b9854807-04b5-4282-8526-f6893b8fbd13)</center>
+<center>
+	![imagen](https://github.com/user-attachments/assets/37e5ea54-8213-4278-9c88-a70328b54344)
+</center>
 
 
 
