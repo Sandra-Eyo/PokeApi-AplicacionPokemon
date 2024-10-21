@@ -21,13 +21,13 @@
             <img th:src="${imagenPokemon}" alt="Imagen del Pokémon" class="w-32 h-32">
         </div>
 
-        <div th:if="${message == null}" class="mb-4">
+        <div th:if="${message == null}" class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4 rounded-lg shadow-lg">
         <!-- Mostrar el número del Pokémon -->
-        <p class="text-lg text-center mb-2">ID: <span th:text="${numeroPokemon}"></span></p>
+        <p class="text-lg text-center mb-2"><span class="font-bold">ID: </span><span th:text="${numeroPokemon}"></span></p>
         <!-- Mostrar la habilidad principal del Pokémon -->
-        <p class="text-lg text-center mb-2">Habilidad: <span th:text="${habilidadPrincipal}"></span></p>
+        <p class="text-lg text-center mb-2"><span class="font-bold">Habilidad: </span><span th:text="${habilidadPrincipal}"></span></p>
         <!-- Mostrar la pista del nombre del Pokémon -->
-        <p class="text-lg text-center mb-2">Nombre: <span th:text="${pistaNombre}"></span></p>
+        <p class="text-lg text-center mb-2"><span class="font-bold">Nombre: </span><span th:text="${pistaNombre}"></span></p>
         </div>
 
     </div>
@@ -35,9 +35,9 @@
     <!-- Mostrar el formulario solo si no hay mensaje -->
     <div th:if="${message == null}">
         <form action="/adivinar" method="POST" class="mb-4">
-            <p class="text-lg text-center mb-2">¿Cuál es el nombre de este Pokémon?</p>
+            <p class="text-lg text-center mb-2">¿Cuál es el <span class="font-bold">nombre</span> de este Pokémon?</p>
             <div class="mb-4">
-                <label for="nombreUsuario" class="block text-sm font-medium text-gray-700 mb-1">Introduce el nombre:</label>
+                <label for="nombreUsuario" class="block text-sm font-medium text-gray-700 mb-1"/>
                 <input type="text" id="nombreUsuario" name="nombreUsuario" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
             </div>
             <!-- Campos ocultos para pasar los datos del Pokémon al backend -->
