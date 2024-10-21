@@ -6,92 +6,67 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
-import java.util.List;
+
 import java.util.Map;
+import java.util.Random;
 
 @Controller
 public class PokemonController {
 
     @GetMapping("/")
-    public String index() {
-        return "index";
-    }
+    public String index(Model model) {
+        // Generar un número aleatorio entre 1 y 151 (Primera generación de Pokémon)
+        Random random = new Random();
+        int numeroPokemon = random.nextInt(151) + 1;  // +1 para que vaya de 1 a 151
 
-    @PostMapping("/buscar")
-    public String buscarPokemon(@RequestParam("nombrePokemon") String nombrePokemon, Model model) {
-        // Convertir a minúsculas
-        nombrePokemon = nombrePokemon.trim().toLowerCase();
-
-        // URL de la PokeAPI
-        String url = "https://pokeapi.co/api/v2/pokemon/" + nombrePokemon;
+        // URL de la PokeAPI para obtener los datos del Pokémon por su número
+        String url = "https://pokeapi.co/api/v2/pokemon/" + numeroPokemon;
         RestTemplate restTemplate = new RestTemplate();
 
         try {
-            // Mapear la respuesta a un Map
+            // Mapear la respuesta de la API a un Map
             Map<String, Object> pokemonData = restTemplate.getForObject(url, Map.class);
 
-            // Verificar que los datos del Pokémon no son nulos
             if (pokemonData != null) {
-                // Obtener la lista de habilidades
-                List<Map<String, Object>> abilities = (List<Map<String, Object>>) pokemonData.get("abilities");
+                // Obtener el nombre del Pokémon
+                String nombrePokemon = (String) pokemonData.get("name");
 
-                // Obtener la primera habilidad si existe
-                if (!abilities.isEmpty()) {
-                    String habilidadPrincipal = ((Map<String, Object>) abilities.get(0).get("ability")).get("name").toString();
+                // Obtener la imagen del Pokémon
+                Map<String, Object> sprites = (Map<String, Object>) pokemonData.get("sprites");
+                String imagenPokemon = (String) sprites.get("front_default");
 
-                    // Obtener la imagen del Pokémon
-                    Map<String, Object> sprites = (Map<String, Object>) pokemonData.get("sprites");
-                    String imagenPokemon = sprites.get("front_default").toString();
-
-                    // Pasar datos al modelo para ser usados en la vista
-                    model.addAttribute("nombrePokemon", nombrePokemon);
-                    model.addAttribute("habilidadPrincipal", habilidadPrincipal);
-                    model.addAttribute("imagenPokemon", imagenPokemon);
-                    return "index"; // Renderizar la página principal con los datos del Pokémon
-                }
+                // Pasar los datos al modelo para la vista
+                model.addAttribute("nombrePokemon", nombrePokemon);
+                model.addAttribute("imagenPokemon", imagenPokemon);
             }
-
-            // Si no se encuentran los datos, enviar mensaje de error
-            model.addAttribute("message", "No se encontró el Pokémon '" + nombrePokemon + "'. Por favor, intenta con otro.");
         } catch (Exception e) {
-            // Manejar posibles excepciones (por ejemplo, si el Pokémon no existe)
-            model.addAttribute("message", "No se encontró el Pokémon '" + nombrePokemon + "'. Por favor, intenta con otro.");
+            model.addAttribute("message", "Hubo un error al obtener los datos del Pokémon. Intenta nuevamente.");
         }
 
-        return "index"; // Renderizar la página principal, incluso si hay error
+        return "index"; // Renderizar la página principal
     }
 
     @PostMapping("/adivinar")
-    public String adivinarHabilidad(@RequestParam("nombrePokemon") String nombrePokemon,
-                                    @RequestParam("habilidad") String habilidadUsuario,
-                                    @RequestParam("habilidadPrincipal") String habilidadPrincipal,
-                                    @RequestParam("imagenPokemon") String imagenPokemon, // Agregar esta línea
-                                    Model model) {
+    public String adivinarPokemon(@RequestParam("nombreUsuario") String nombreUsuario,
+                                  @RequestParam("nombrePokemon") String nombrePokemon,
+                                  @RequestParam("imagenPokemon") String imagenPokemon,
+                                  Model model) {
 
         // Comprobamos si la respuesta es correcta
-        if (habilidadUsuario.equalsIgnoreCase(habilidadPrincipal)) {
-            model.addAttribute("message", "¡Correcto! La habilidad principal de " + nombrePokemon + " es " + habilidadPrincipal + ".");
+        if (nombreUsuario.trim().equalsIgnoreCase(nombrePokemon)) {
+            model.addAttribute("message", "¡Correcto! El Pokémon es " + nombrePokemon + ".");
         } else {
-            model.addAttribute("message", "Incorrecto. La habilidad principal de " + nombrePokemon + " es " + habilidadPrincipal + ".");
+            model.addAttribute("message", "Incorrecto. El Pokémon era " + nombrePokemon + ".");
         }
 
-        // Pasar datos de vuelta a la vista
-        model.addAttribute("nombrePokemon", nombrePokemon);
-        model.addAttribute("habilidadPrincipal", habilidadPrincipal);
-        model.addAttribute("imagenPokemon", imagenPokemon); // Mantener la imagen
+        // Mantener la imagen del Pokémon
+        model.addAttribute("imagenPokemon", imagenPokemon);
 
-        return "index"; // Renderizar la página principal con el resultado
+        return "index"; // Renderizar la página con el resultado
     }
 
     @GetMapping("/reiniciar")
     public String reiniciar(Model model) {
-        // Limpiar el modelo para reiniciar el juego
-        model.addAttribute("nombrePokemon", null);
-        model.addAttribute("habilidadPrincipal", null);
-        model.addAttribute("imagenPokemon", null);
-        model.addAttribute("message", null); // Limpiar el mensaje
-
-        return "index"; // Volver a la página principal
+        return "redirect:/"; // Reiniciar y seleccionar otro Pokémon
     }
-
 }
