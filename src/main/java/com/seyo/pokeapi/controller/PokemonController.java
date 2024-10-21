@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Controller
 public class PokemonController {
@@ -31,13 +30,23 @@ public class PokemonController {
                 // Obtener el nombre del Pokémon
                 String nombrePokemon = (String) pokemonData.get("name");
 
+                // Obtener la habilidad principal del Pokémon
+                List<Map<String, Object>> habilidades = (List<Map<String, Object>>) pokemonData.get("abilities");
+                String habilidadPrincipal = ((Map<String, Object>) habilidades.get(0).get("ability")).get("name").toString();
+
                 // Obtener la imagen del Pokémon
                 Map<String, Object> sprites = (Map<String, Object>) pokemonData.get("sprites");
                 String imagenPokemon = (String) sprites.get("front_default");
 
+                // Generar la pista del nombre
+                String pistaNombre = generarPistaNombre(nombrePokemon);
+
                 // Pasar los datos al modelo para la vista
                 model.addAttribute("nombrePokemon", nombrePokemon);
+                model.addAttribute("numeroPokemon", numeroPokemon); // Mantener el número del Pokémon
+                model.addAttribute("habilidadPrincipal", habilidadPrincipal); // Añadir habilidad principal
                 model.addAttribute("imagenPokemon", imagenPokemon);
+                model.addAttribute("pistaNombre", pistaNombre); // Añadir pista del nombre
             }
         } catch (Exception e) {
             model.addAttribute("message", "Hubo un error al obtener los datos del Pokémon. Intenta nuevamente.");
@@ -69,4 +78,31 @@ public class PokemonController {
     public String reiniciar(Model model) {
         return "redirect:/"; // Reiniciar y seleccionar otro Pokémon
     }
+
+    // Método para generar una pista del nombre del Pokémon
+    private String generarPistaNombre(String nombre) {
+        Random rand = new Random();
+        char[] nombreChar = nombre.toCharArray();
+
+        // Número de letras a mostrar
+        int letrasAMostrar = Math.min(2, nombre.length() - 1);
+        Set<Integer> indicesVisibles = new HashSet<>();
+
+        // Elegir letras aleatorias para mostrar
+        while (indicesVisibles.size() < letrasAMostrar) {
+            indicesVisibles.add(rand.nextInt(nombre.length()));
+        }
+
+        StringBuilder pista = new StringBuilder();
+        for (int i = 0; i < nombre.length(); i++) {
+            if (indicesVisibles.contains(i)) {
+                pista.append(nombreChar[i]);
+            } else {
+                pista.append('_'); // Usar guiones bajos para las letras no visibles
+            }
+        }
+
+        return pista.toString();
+    }
 }
+

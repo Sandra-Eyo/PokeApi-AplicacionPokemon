@@ -20,6 +20,16 @@
         <div class="flex justify-center mb-4">
             <img th:src="${imagenPokemon}" alt="Imagen del Pokémon" class="w-32 h-32">
         </div>
+
+        <div th:if="${message == null}" class="mb-4">
+        <!-- Mostrar el número del Pokémon -->
+        <p class="text-lg text-center mb-2">ID: <span th:text="${numeroPokemon}"></span></p>
+        <!-- Mostrar la habilidad principal del Pokémon -->
+        <p class="text-lg text-center mb-2">Habilidad: <span th:text="${habilidadPrincipal}"></span></p>
+        <!-- Mostrar la pista del nombre del Pokémon -->
+        <p class="text-lg text-center mb-2">Nombre: <span th:text="${pistaNombre}"></span></p>
+        </div>
+
     </div>
 
     <!-- Mostrar el formulario solo si no hay mensaje -->
@@ -55,6 +65,7 @@
 
 </body>
 </html>
+
 
 
 
