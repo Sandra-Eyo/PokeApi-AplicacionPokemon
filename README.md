@@ -17,10 +17,10 @@
 
 ## Cómo usar
 
-1. **Instalación:** Asegúrate de tener Java y Maven instalados en tu máquina. Clona este repositorio y navega a la carpeta del proyecto.
+1. **Instalación:** Asegúrate de tener Java y Maven instalados en tu máquina. Clona este repositorio.
+
    ```bash
-   git clone <url-del-repositorio>
-   cd adivina-el-pokemon
+   git clone https://github.com/Sandra-Eyo/PokeApi-Tarea0-V.1-DAW.git
 
 2. **Compilación:** Compila el proyecto utilizando Maven, asegúrate de usar el jdk 21, el cual puedes configurar en File > Project Structure
 
