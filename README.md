@@ -22,15 +22,17 @@
    ```bash
    git clone https://github.com/Sandra-Eyo/PokeApi-Tarea0-V.1-DAW.git
 
-2. **Compilación:** Compila el proyecto utilizando Maven, asegúrate de usar el jdk 21, el cual puedes configurar en File > Project Structure
+2. **Compilación:** Compila el proyecto utilizando Maven, asegúrate de usar el jdk 21, el cual puedes configurar en **File > Project Structure** .
 
-```
-mvn clean install
+```bash
+   mvn clean install
 ```
 
 3. **Ejecución:** Ejecuta la aplicación.
 
-```mvn spring-boot:run```
+```bash
+   mvn spring-boot:run
+```
 
 4. **Acceso a la aplicación:** Abre tu navegador y ve a http://localhost:8080 para comenzar usarlo
 
