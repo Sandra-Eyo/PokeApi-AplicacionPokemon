@@ -1,4 +1,4 @@
-# Tarea 0 DAW - Juego PokeApi
+# Tarea Aplicación Pokemon - Juego PokeApi
 
 ## Descripción
 
