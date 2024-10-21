@@ -2,11 +2,14 @@
 
 ## Descripción
 
-1. Crea un archivo index que consulte un Pokemon random de la PokeAPI.
-2. Mostramos en el index la imagen de ese Pokemon.
-3. Necesitarás crear un formulario con un input para que los jugadores puedan intentar adivinarlo.
-4. Muestra por pantalla si han acertado o no.
-5. Buildea el contenedor necesario y realiza los comandos necesarios para mostrar esta aplicación mediante un servicio web dentro de un contenedor y servirla a tus compañeros a través de tu ordenador físico.
+Realizar un juego ~~preferiblemente en php~~ que consulte la PokeAPI y tenga como resultado un juego como el del video que se muestra.
+TIPS:
+	- ~~Comprobación de resultado hecha con AJAX sin volver a recargar la página.~~
+	- Para ello habrá un index.php y un ~~checkPokemon.php -> Javascript hará la llamada asíncrona desde index a checkPokemon para comprobar el resultado.~~
+	- Se utiliza ~~BootStrap~~.
+Crea un repo en GitHub.
+Dockeriza la app.
+Súbela a DockerHub.
 
 ## Tecnologías utilizadas
 
