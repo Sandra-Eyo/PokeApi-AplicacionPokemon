@@ -44,3 +44,6 @@ Súbela a DockerHub.
 
 
 
+## Imagen en DockerHub
+
+https://hub.docker.com/repository/docker/sandraeyo/pokeapi/general
